@@ -1,0 +1,112 @@
+From 1702950c3483dd8901cd0a8de6c85798ddd6e0a2 Mon Sep 17 00:00:00 2001
+From: @ <0®-•U>
+Date: Wed, 31 Aug 2016 17:07:30 +0200
+Subject: [PATCH] Introduced MobX counter
+
+---
+ package.json   |  3 +++
+ src/App.js     | 16 ++++++++++++++--
+ src/Counter.js | 20 ++++++++++++++++++++
+ src/index.js   |  3 ++-
+ 4 files changed, 39 insertions(+), 3 deletions(-)
+ create mode 100644 src/Counter.js
+
+diff --git a/package.json b/package.json
+index 31fbf1d..c642bf2 100644
+--- a/package.json
++++ b/package.json
+@@ -6,6 +6,9 @@
+     "react-scripts": "0.2.3"
+   },
+   "dependencies": {
++    "mobx": "^2.5.0",
++    "mobx-react": "^3.5.5",
++    "mobx-react-devtools": "^4.2.5",
+     "react": "^15.3.1",
+     "react-dom": "^15.3.1"
+   },
+diff --git a/src/App.js b/src/App.js
+index d7d52a7..7af2892 100644
+--- a/src/App.js
++++ b/src/App.js
+@@ -1,21 +1,33 @@
+ import React, { Component } from 'react';
++import { observer } from 'mobx-react'
++import DevTools from 'mobx-react-devtools';
+ import logo from './logo.svg';
+ import './App.css';
+ 
+ class App extends Component {
+   render() {
++    const {counter} = this.props;
+     return (
+       <div className="App">
+         <div className="App-header">
+           <img src={logo} className="App-logo" alt="logo" />
+-          <h2>Welcome to React</h2>
++          <h2>Welcome to React + MobX</h2>
+         </div>
+         <p className="App-intro">
+           To get started, edit <code>src/App.js</code> and save to reload.
+         </p>
++        <p>
++          Counter:
++          <span className={counter.isOdd ? 'Counter-odd' : 'Counter-even'}> {counter.count} </span>
++        </p>
++        <p>
++          <button onClick={() => counter.increment()}> + </button>
++          <button onClick={() => counter.decrement()}> - </button>
++        </p>
++        <DevTools />
+       </div>
+     );
+   }
+ }
+ 
+-export default App;
++export default observer(App);
+diff --git a/src/Counter.js b/src/Counter.js
+new file mode 100644
+index 0000000..4c090b4
+--- /dev/null
++++ b/src/Counter.js
+@@ -0,0 +1,20 @@
++import { extendObservable, computed } from 'mobx';
++
++class Counter {
++  constructor() {
++    extendObservable(this, {
++      count: 0,
++      isOdd: computed(() => this.count % 2 === 1)
++    });
++  }
++
++  increment() {
++    this.count++;
++  }
++
++  decrement() {
++    this.count--;
++  }
++}
++
++export default Counter;
+diff --git a/src/index.js b/src/index.js
+index 54c5ef1..00a7a1f 100644
+--- a/src/index.js
++++ b/src/index.js
+@@ -1,9 +1,10 @@
+ import React from 'react';
+ import ReactDOM from 'react-dom';
++import Counter from './Counter';
+ import App from './App';
+ import './index.css';
+ 
+ ReactDOM.render(
+-  <App />,
++  <App counter={new Counter()} />,
+   document.getElementById('root')
+ );
+--
+libgit2 0.24.0
+
