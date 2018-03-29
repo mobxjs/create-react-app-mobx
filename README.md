@@ -1,3 +1,8 @@
+# DEPRECATED #
+
+Use https://github.com/timarney/react-app-rewired/tree/master/packages/react-app-rewire-mobx instead. 
+Or don't use decorator sytax at all but the MobX 4 `decorate` featur einstead.
+
 # create-react-app + mobx
 
 This is an example application that add a [MobX](https://mobxjs.github.io/mobx) based counter to a
