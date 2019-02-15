@@ -1,6 +1,6 @@
 # DEPRECATED #
 
-Use https://github.com/timarney/react-app-rewired/tree/master/packages/react-app-rewire-mobx instead. 
+Use https://github.com/arackaf/customize-cra instead. 
 Or don't use decorator sytax at all but the MobX 4 `decorate` featur einstead.
 
 # create-react-app + mobx
